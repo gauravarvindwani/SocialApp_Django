@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',    
     'django_cleanup.apps.CleanupConfig',
     'a_posts',
-    'a_users'
+    'a_users',
+    'a_inbox'
 ]
 
 SITE_ID = 1
@@ -157,4 +158,4 @@ ACCOUNT_LOGIN_METHODS = {'email'}
 # ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 
-ACCOUNT_USERNAME_BLACKLIST = ['admin', 'accounnt', 'profile', 'category', 'post']
+ACCOUNT_USERNAME_BLACKLIST = ['admin', 'accounnt', 'profile', 'category', 'post', 'inbox']
