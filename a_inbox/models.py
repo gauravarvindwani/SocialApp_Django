@@ -3,6 +3,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.timesince import timesince
+from cryptography.fernet import Fernet
+from django.conf import settings
+
 
 # Create your models here.
 class InboxMessage(models.Model):
@@ -11,6 +14,15 @@ class InboxMessage(models.Model):
     body = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     
+    
+    @property
+    def body_decrypted(self):
+        try:
+            f = Fernet(settings.ENCRYPT_KEY)
+            message_decrypted = f.decrypt(self.body.encode('utf-8'))
+            return message_decrypted.decode('utf-8')
+        except Exception as e:
+            return "[Decryption Error]"
     class Meta:
         ordering = ['-created']
 

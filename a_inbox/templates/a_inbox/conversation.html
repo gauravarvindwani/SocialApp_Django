@@ -34,8 +34,8 @@ _="on load wait for 5ms then remove .opacity-0">
               <div>{{ message.created }} ({{ message.created|timesince }})</div>
             </div>
             <div>
-              {{ message.body }}
-              {% comment %} <p class="whitespace-pre-wrap">{{ message.body }}</p> {% endcomment %}
+              
+              <p class="whitespace-pre-wrap">{{ message.body_decrypted }}</p>
             </div>
           </div>
         </div>
