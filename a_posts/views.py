@@ -44,13 +44,9 @@ def home_view(request, tag=None):
     
     return render(request, 'a_posts/home.html', context)
 
-
-
-
 @login_required
 def post_create_view(request):
     form = PostCreateForm()
-    
     
     if request.method == 'POST':
         form = PostCreateForm(request.POST)

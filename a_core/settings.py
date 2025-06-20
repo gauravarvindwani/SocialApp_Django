@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+from environ import Env
+env = Env()
+Env.read_env()
+ENVIRONMENT = env('ENVIRONMENT', default='production')
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,14 +26,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-tz2znb9scd7-r6ditja(ib!&kml7a$_!tm_^0s9a&=^9vlcd=f'
+SECRET_KEY = env('SECRET_KEY')
 
-ENCRYPT_KEY = b'_qARXiA3XrxOck1eY4l-rWFWhFkIGphZp-1m9is6ccc='
+ENCRYPT_KEY = env('ENCRYPT_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+if ENVIRONMENT == 'development':
+    DEBUG = True
+else:
+    DEBUG = False
+    
 ALLOWED_HOSTS = ['*']
+
+INTERNAL_IPS = (
+    '127.0.0.1',
+    'localhost:8000'
+)
 
 
 # Application definition
@@ -40,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'admin_honeypot',
     "django_htmx",
     'allauth',
     'allauth.account',
@@ -54,6 +69,7 @@ SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -62,6 +78,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     "django_htmx.middleware.HtmxMiddleware",
+    
 ]
 
 ROOT_URLCONF = 'a_core.urls'
@@ -144,6 +161,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [ BASE_DIR / 'static' ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -160,4 +178,4 @@ ACCOUNT_LOGIN_METHODS = {'email'}
 # ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 
-ACCOUNT_USERNAME_BLACKLIST = ['admin', 'accounnt', 'profile', 'category', 'post', 'inbox']
+ACCOUNT_USERNAME_BLACKLIST = ['admin', 'accounnt', 'profile', 'category', 'post', 'inbox', 'theboss' ] 
