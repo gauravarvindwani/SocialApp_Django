@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
 
 from environ import Env
 env = Env()
@@ -121,6 +122,11 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+POSTGRES_LOCALY = False
+if ENVIRONMENT == 'production' or POSTGRES_LOCALY == True:
+    DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
+
 
 
 # Password validation
